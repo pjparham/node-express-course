@@ -29,7 +29,8 @@ app.get('/api/products/:productID', (req, res) => {
 })
 
 app.get('/api/products/:productID/reviews/:reviewID', (req, res) => {
-  console.log(req.params)
+  const { productID, reviewId } = req.params
+  console.log(req.params, productID, reviewId)
   res.send('hello world')
 })
 
@@ -51,6 +52,8 @@ app.get('/api/v1/query', (req, res) => {
     return res.status(200).json({ sucess: true, data: [] })
   }
   res.status(200).json(sortedProducts)
+  console.log(req.query)
+  res.send('helloworld')
 })
 
 app.listen(8000, () => {
