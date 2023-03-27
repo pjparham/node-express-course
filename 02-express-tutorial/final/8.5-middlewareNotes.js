@@ -1,12 +1,11 @@
 const express = require('express')
 const app = express();
 const logger = require('./logger')
-const authorize = require('./authorize')
 
 // req => middleware => res
 // order matters -> if this is below an app.get it wont apply to it
 // app.use(logger)
-app.use([authorize, logger]) // first arg is optional, but if applied it will affect all routes beginning with this
+app.use('/api', logger) // first arg is optional, but if applied it will affect all routes beginning with this
 
 app.get('/', (req, res) => {
     res.send('Home')
