@@ -1,27 +1,33 @@
 const express = require('express')
 const app = express();
-const logger = require('./logger')
-const authorize = require('./authorize')
+const {people} = require('./data')
 
-// req => middleware => res
-// order matters -> if this is below an app.get it wont apply to it
-// app.use(logger)
-app.use([authorize, logger]) // first arg is optional, but if applied it will affect all routes beginning with this
+// static assets
+app.use(express.static('./methods-public'))
+// parse form data
+app.use(express.urlencoded({ extended: false }))
 
-app.get('/', (req, res) => {
-    res.send('Home')
+app.get('/api/people', (req, res) => {
+    res.status(200).json({success: true, data: people})
+})
+//parse json
+app.use(express.json())
+
+app.post('/api/people', (req, res) => {
+    const { name } = req.body
+    if(!name){
+        return res.status(400).json({success: false, msg: 'Please provide name value'})
+    }
+    res.status(201).json({sucesss: true, person: name})
 })
 
-app.get('/about', (req, res) => {
-    res.send('About')
-})
 
-app.get('/api/products', (req, res) => {
-    res.send('products')
-})
-
-app.get('/api/items', (req, res) => {
-    res.send('items')
+app.post('/login', (req, res) => {
+    const {name} = req.body;
+    if(name){
+        return res.status(200).send(`<h1>Welcome ${name}</h1>`)
+    }
+    res.status(401).send('Please Provide Credentials ')
 })
 
 app.listen(8000, () => {
