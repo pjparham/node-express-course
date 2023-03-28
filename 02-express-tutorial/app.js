@@ -60,6 +60,19 @@ app.put('/api/people/:id', (req, res) => {
     res.status(200).json({sucess: true, data: newPeople})
 })
 
+app.delete('/api/people/:id', (req, res) => {
+    const {id} = req.params;
+    console.log(id)
+    const person = people.find((person) => person.id === Number(id))
+    if(!person){
+        return res
+            .status(404)
+            .json({ sucess: false, msg: `no person with id ${id}`})
+    }
+    const newPeople = people.filter((person) =>  person.id !== Number(id))
+    return res.status(200).json({success: true, data: newPeople})
+})
+
 app.listen(8000, () => {
     console.log('Server is listening on port 8000...');
 })
