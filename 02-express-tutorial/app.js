@@ -63,7 +63,7 @@ app.put('/api/people/:id', (req, res) => {
 app.delete('/api/people/:id', (req, res) => {
     const {id} = req.params;
     console.log(id)
-    const person = people.find((person) => person.id === Number(req.params.id))
+    const person = people.find((person) => person.id === Number(id))
     if(!person){
         return res
             .status(404)
