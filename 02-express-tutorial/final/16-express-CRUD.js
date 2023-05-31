@@ -7,11 +7,21 @@ app.use(express.static('./methods-public'))
 // parse form data
 app.use(express.urlencoded({ extended: false }))
 
+
+//parse json
+app.use(express.json())
+
+app.post('/login', (req, res) => {
+    const {name} = req.body;
+    if(name){
+        return res.status(200).send(`<h1>Welcome ${name}</h1>`)
+    }
+    res.status(401).send('Please Provide Credentials ')
+})
+
 app.get('/api/people', (req, res) => {
     res.status(200).json({success: true, data: people})
 })
-//parse json
-app.use(express.json())
 
 app.post('/api/people', (req, res) => {
     const { name } = req.body
@@ -21,7 +31,7 @@ app.post('/api/people', (req, res) => {
     res.status(201).json({sucesss: true, person: name})
 })
 
-app.post('/api/postman/people', (req, res) => {
+app.post('/api/people/postman', (req, res) => {
     const {name} = req.body
     if(!name){
         return res
@@ -34,13 +44,7 @@ app.post('/api/postman/people', (req, res) => {
 })
 
 
-app.post('/login', (req, res) => {
-    const {name} = req.body;
-    if(name){
-        return res.status(200).send(`<h1>Welcome ${name}</h1>`)
-    }
-    res.status(401).send('Please Provide Credentials ')
-})
+
 
 app.put('/api/people/:id', (req, res) => {
     const {id} = req.params;
@@ -63,7 +67,7 @@ app.put('/api/people/:id', (req, res) => {
 app.delete('/api/people/:id', (req, res) => {
     const {id} = req.params;
     console.log(id)
-    const person = people.find((person) => person.id === Number(req.params.id))
+    const person = people.find((person) => person.id === Number(id))
     if(!person){
         return res
             .status(404)
