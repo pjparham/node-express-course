@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express();
 
-const peopleRouter = require('./routes/poeple')
+const peopleRouter = require('./routes/people')
 const authRouter = require('./routes/auth')
 
 // static assets
