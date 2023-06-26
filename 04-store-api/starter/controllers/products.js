@@ -8,7 +8,16 @@ const getAllProductsStatic = async (req, res) => {
 }
 
 const getAllProducts = async (req, res) => {
-    res.status(200).json({msg:'products route'})
+    const { featured } = req.query
+    const queryObject = {}
+
+    if(featured){
+        queryObject.featured = featured === 'true' ? true : false
+    }
+
+
+    const products = await Product.find(queryObject)
+    res.status(200).json({products})
 }
 
 module.exports = {
